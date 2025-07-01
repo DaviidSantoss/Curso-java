@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+    <named-query name="vaiii">
+        <query>
+        SELECT distinct f 
+        FROM A21_Filme f
+        JOIN FETCH f.atores
+        WHERE f.nota > :nota
+    </query>
+    </named-query>
+
+    <!-- Declaração de uma Named Native Query chamada "obterMediaGeral" -->
+    <named-native-query name="obterMediaGeral" result-set-mapping="NotaFilmeMap">
+
+        <query>
+            <!-- Define a query nativa (SQL puro) que será executada -->
+        select avg (nota) as media from A21_Filme
+    
+    </query>
+
+
+    </named-native-query>
+
+    <!-- Configuração para mapear o resultado da Named Native Query -->
+    <sql-result-set-mapping name="NotaFilmeMap">
+
+        <!-- Configura como o resultado será convertido para uma classe específica -->
+        <constructor-result target-class="F02_Modelo.Consulta.A23_NotaFilme">
+
+            <!-- Mapeia a coluna "media" retornada pela consulta SQL para o construtor da classe -->
+            <column name="media" class="java.lang.Double" />
+
+
+        </constructor-result>
+
+
+    </sql-result-set-mapping>
+
+</entity-mappings>
+
+<!-- ESSE ARQUIVO PRECISA SER INSTâNCIADO DENTRO DE "persistence.xml"-->
